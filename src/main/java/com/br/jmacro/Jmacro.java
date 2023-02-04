@@ -1,64 +1,41 @@
 package com.br.jmacro;
 
-import org.jnativehook.GlobalScreen;
-import org.jnativehook.NativeHookException;
-import org.jnativehook.keyboard.NativeKeyEvent;
-import org.jnativehook.keyboard.NativeKeyListener;
-
-import java.awt.*;
-//import java.awt.event.KeyEvent;
 import java.util.logging.Level;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
+import com.github.kwhat.jnativehook.GlobalScreen;
+import com.github.kwhat.jnativehook.NativeHookException;
+import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
+import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
+
 public class Jmacro implements NativeKeyListener {
+    public void nativeKeyPressed(NativeKeyEvent e) {
+        if (e.getKeyCode() == NativeKeyEvent.VC_8) {
+            GlobalScreen.postNativeEvent(new NativeKeyEvent(NativeKeyEvent.NATIVE_KEY_PRESSED,
+                    (int) System.currentTimeMillis(), 0, NativeKeyEvent.VC_9, '9'));
+        }
+    }
 
-    private static KeyConfig keyConfig;
+    public void nativeKeyReleased(NativeKeyEvent e) {
+    }
 
-    public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException {
-        keyConfig = new KeyConfig("VC_EQUALS", "VK_8", "VC_DELETE");
-
-        Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
-        logger.setLevel(Level.OFF);
-
+    public void nativeKeyTyped(NativeKeyEvent e) {
+    }
+    public static void main(String[] args) {
         try {
+            LogManager.getLogManager().reset();
+            Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
+            logger.setLevel(Level.OFF);
+
             GlobalScreen.registerNativeHook();
-            GlobalScreen.addNativeKeyListener(new Jmacro());
         } catch (NativeHookException ex) {
             System.err.println("There was a problem registering the native hook.");
             System.err.println(ex.getMessage());
+
             System.exit(1);
         }
-    }
 
-    @Override
-    public void nativeKeyPressed(NativeKeyEvent e) {
-        if (e.getKeyCode() == keyConfig.getKeyStart()) {
-            try {
-                Robot robot = new Robot();
-                robot.keyPress(keyConfig.getKey1());
-                robot.keyRelease(keyConfig.getKey1());
-                //robot.mouseMove(946, 500);
-                //robot.mousePress(KeyEvent.BUTTON1_DOWN_MASK);
-                //robot.mouseRelease(KeyEvent.BUTTON1_DOWN_MASK);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        } else if (e.getKeyCode() == keyConfig.getKeyStop()) {
-            try {
-                GlobalScreen.unregisterNativeHook();
-            } catch (NativeHookException ex) {
-                ex.printStackTrace();
-            }
-        }
-    }
-
-    @Override
-    public void nativeKeyReleased(NativeKeyEvent e) {
-        // Do nothing.
-    }
-
-    @Override
-    public void nativeKeyTyped(NativeKeyEvent e) {
-        // Do nothing.
+        GlobalScreen.addNativeKeyListener(new Jmacro());
     }
 }
