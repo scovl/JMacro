@@ -12,6 +12,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
+import java.util.stream.IntStream;
 
 
 public class Jmacro implements NativeKeyListener {
@@ -30,10 +31,11 @@ public class Jmacro implements NativeKeyListener {
         int keyCode = e.getKeyCode();
 
         if (keyCode == Integer.parseInt(prop.getProperty("macroStartKey"))) {
-            for (int i = 1; i <= 3; i++) {
-                GlobalScreen.postNativeEvent(new NativeKeyEvent(NativeKeyEvent.NATIVE_KEY_PRESSED,
-                        (int) System.currentTimeMillis(), 0, Integer.parseInt(prop.getProperty("key" + i)), NativeKeyEvent.CHAR_UNDEFINED));
-            }
+            IntStream.rangeClosed(1, 3)
+                    .mapToObj(i -> Integer.parseInt(prop.getProperty("key" + i)))
+                    .forEach(numCode -> GlobalScreen.postNativeEvent(new NativeKeyEvent(NativeKeyEvent.NATIVE_KEY_PRESSED,
+                            (int) System.currentTimeMillis(), 0, numCode, NativeKeyEvent.CHAR_UNDEFINED)));
+
             // time sleep 5 miliseconds
             try {
                 Thread.sleep(5);
