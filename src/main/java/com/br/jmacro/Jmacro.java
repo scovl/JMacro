@@ -1,5 +1,8 @@
 package com.br.jmacro;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
@@ -9,34 +12,28 @@ import com.github.kwhat.jnativehook.NativeHookException;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
 
-// mouse
-import com.github.kwhat.jnativehook.mouse.NativeMouseEvent;
-
-
 public class Jmacro implements NativeKeyListener {
+
+    // Open config.properties file
+    private Properties prop = new Properties();
+
+    public Jmacro() {
+        try {
+            prop.load(new FileInputStream("config.properties"));
+        } catch (IOException e) {
+            System.out.println("Could not load config.properties file");
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+
     public void nativeKeyPressed(NativeKeyEvent e) {
-        if (e.getKeyCode() == NativeKeyEvent.VC_EQUALS) {
+        int keyCode = e.getKeyCode();
+
+        // if keyCode == NativeKeyEvent.VC_EQUALS then execute config.properties
+        if (keyCode == NativeKeyEvent.VC_EQUALS) {
             GlobalScreen.postNativeEvent(new NativeKeyEvent(NativeKeyEvent.NATIVE_KEY_PRESSED,
-                    (int) System.currentTimeMillis(), 0, NativeKeyEvent.VC_SPACE, NativeKeyEvent.CHAR_UNDEFINED));
-
-            // time sleep 5 miliseconds
-            try {
-                Thread.sleep(5);
-            } catch (InterruptedException e1) {
-                e1.printStackTrace();
-            }
-
-            // VC_8
-            GlobalScreen.postNativeEvent(new NativeKeyEvent(NativeKeyEvent.NATIVE_KEY_PRESSED,
-                    (int) System.currentTimeMillis(), 0, NativeKeyEvent.VC_8, NativeKeyEvent.CHAR_UNDEFINED));
-
-            // mouse moved = (946, 500)
-            GlobalScreen.postNativeEvent(new NativeMouseEvent(NativeMouseEvent.NATIVE_MOUSE_MOVED,
-                    (int) System.currentTimeMillis(), 946, 500, 0, NativeMouseEvent.BUTTON1));
-
-            // VC_v
-            GlobalScreen.postNativeEvent(new NativeKeyEvent(NativeKeyEvent.NATIVE_KEY_PRESSED,
-                    (int) System.currentTimeMillis(), 0, NativeKeyEvent.VC_V, NativeKeyEvent.CHAR_UNDEFINED));
+                    (int) System.currentTimeMillis(), 0, Integer.parseInt(prop.getProperty("key1")), NativeKeyEvent.CHAR_UNDEFINED));
         }
 
         // exit macro
