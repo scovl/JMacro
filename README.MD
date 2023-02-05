@@ -14,13 +14,32 @@ This is a program that allows you to create macros based on keyboard and mouse. 
 
 1. Download the release **[HERE](https://github.com/lobocode/JMacro/releases/download/Latest/JMacro.zip)** and unzip `JMacro.zip` anywhere
 2. Configure the `configMacro.properties` file with the macro you want to configure
-3. run it with the following command:
+
+The `configMacro.properties` file contains the following information:
+
+```bash
+[Keyboard Macro]
+macroStartKey = 13 # key that triggers the macro
+numberOfKeys = 3 # the amount of keystrokes you want to automate
+
+key1 = 57
+key2 = 9
+key3 = 47
+# key++ here suggest you can create other keys
+
+macroEndKey = 3667; # the key that ends the execution of the JMacro
+```
+
+Here the numerical list of each key **[Read the Documentation here](https://github.com/lobocode/JMacro/blob/main/docs/macro.md)**
+
+
+4. run it with the following command:
 
 ```bash
 java -jar JMacro.jar
 ```
 
-**[Read the Documentation here](https://github.com/lobocode/JMacro/blob/main/docs/macro.md)**
+
 
 * **NOTE**: Pay attention to variables `macroStartKey` and `macroEndKey` (one is for starting the macro and the other for ending it).
 
@@ -30,3 +49,4 @@ Easy, isn't it? JMacro will be guided by the configuration you made in the `conf
 
 * Implement keyboard remapping feature
 * Implement feature that allows you to create more complex macros that mix mouse and keyboard
+
