@@ -1,23 +1,28 @@
 ## JMacro
 
-Este é um programa que permite criar macros se baseando no teclado e mouse. Com ele, é possível remapear teclas e combinar ações do teclado e mouse para serem executadas com apenas um ou mais comandos.
+This is a program that allows you to create macros based on keyboard and mouse. With it, you can remap keys and combine keyboard and mouse actions to be performed with just one or more commands.
 
-## Funcionalidades
+## Features
 
-* Remapear teclas
-* Combinar ações do teclado e mouse
+* Remap keys
+* Combine keyboard and mouse actions
 
-## Requisitos
+## Requirements
 
-* Java 8 ou superior
+* Java 8 or higher
 
-## Como usar
+## How to use
 
-1. Configure o arquivo `settings.cfg` com o macro que você deseja configurar
-2. Baixe o jar **[AQUI]()** e rode com o seguinte comando:
+1. Configure the `config.properties` file with the macro you want to configure
+
+2. Download the jar **[HERE]()** and run it with the following command:
 
 ```bash
 java -jar jmacro.jar
 ```
 
-Pronto! Fácil, não? O JMacro vai se orientar pela configuração que você fez no arquivo `settings.cfg`.
+Easy, isn't it? JMacro will be guided by the configuration you made in the `config.properties` file.
+
+## TODO
+
+* Implementar remap
