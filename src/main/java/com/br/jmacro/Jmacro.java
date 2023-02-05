@@ -1,5 +1,11 @@
 package com.br.jmacro;
 
+import com.github.kwhat.jnativehook.GlobalScreen;
+import com.github.kwhat.jnativehook.NativeHookException;
+import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
+import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
+//import com.github.kwhat.jnativehook.mouse.NativeMouseEvent;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -7,37 +13,37 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import com.github.kwhat.jnativehook.GlobalScreen;
-import com.github.kwhat.jnativehook.NativeHookException;
-import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
-import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
 
 public class Jmacro implements NativeKeyListener {
 
-    // Open config.properties file
     private Properties prop = new Properties();
 
     public Jmacro() {
         try {
-            prop.load(new FileInputStream("config.properties"));
+            prop.load(new FileInputStream("configMacro.properties"));
         } catch (IOException e) {
-            System.out.println("Could not load config.properties file");
+            System.out.println("Could not load configRemap.properties file");
             System.out.println("Error: " + e.getMessage());
         }
     }
-
-
     public void nativeKeyPressed(NativeKeyEvent e) {
         int keyCode = e.getKeyCode();
 
-        // if keyCode == NativeKeyEvent.VC_EQUALS then execute config.properties
-        if (keyCode == NativeKeyEvent.VC_EQUALS) {
-            GlobalScreen.postNativeEvent(new NativeKeyEvent(NativeKeyEvent.NATIVE_KEY_PRESSED,
-                    (int) System.currentTimeMillis(), 0, Integer.parseInt(prop.getProperty("key1")), NativeKeyEvent.CHAR_UNDEFINED));
+        if (keyCode == Integer.parseInt(prop.getProperty("macroStartKey"))) {
+            for (int i = 1; i <= 3; i++) {
+                GlobalScreen.postNativeEvent(new NativeKeyEvent(NativeKeyEvent.NATIVE_KEY_PRESSED,
+                        (int) System.currentTimeMillis(), 0, Integer.parseInt(prop.getProperty("key" + i)), NativeKeyEvent.CHAR_UNDEFINED));
+            }
+            // time sleep 5 miliseconds
+            try {
+                Thread.sleep(5);
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
         }
 
         // exit macro
-        if (e.getKeyCode() == NativeKeyEvent.VC_DELETE) {
+        if (e.getKeyCode() == Integer.parseInt(prop.getProperty("macroEndKey"))) {
             System.exit(0);
         }
     }
