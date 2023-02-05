@@ -1,6 +1,6 @@
 ## JMacro
 
-This is a program that allows you to create macros based on keyboard and mouse. With it, you can remap keys and combine keyboard and mouse actions to be performed with just one or more commands. **[Read the Documentation here](https://github.com/lobocode/JMacro/blob/main/docs/macro.md)**.
+This is a program that allows you to create macros based on keyboard and mouse. With it, you can remap keys and combine keyboard and mouse actions to be performed with just one or more commands. This tool is very useful for you who have different keyboard layouts and want to automate some features.
 
 ## Features
 
