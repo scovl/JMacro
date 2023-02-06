@@ -8,6 +8,7 @@ import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -32,16 +33,18 @@ public class Jmacro implements NativeKeyListener {
 
         if (keyCode == Integer.parseInt(prop.getProperty("macroStartKey"))) {
             IntStream.rangeClosed(1, Integer.parseInt(prop.getProperty("numberOfKeys")))
-                    .mapToObj(i -> Integer.parseInt(prop.getProperty("key" + i)))
-                    .forEach(numCode -> GlobalScreen.postNativeEvent(new NativeKeyEvent(NativeKeyEvent.NATIVE_KEY_PRESSED,
-                            (int) System.currentTimeMillis(), 0, numCode, NativeKeyEvent.CHAR_UNDEFINED)));
+                    .mapToObj(i -> {
+                        String keyValue = prop.getProperty("key" + i);
+                        if (keyValue == null || keyValue.isEmpty()) {
+                            throw new IllegalArgumentException("The key " + i + " is invalid.");
+                        }
+                        return Integer.parseInt(keyValue);
+                    })
+                    .forEach(numCode -> {
+                        GlobalScreen.postNativeEvent(new NativeKeyEvent(NativeKeyEvent.NATIVE_KEY_PRESSED,
+                                (int) System.currentTimeMillis(), 0, numCode, NativeKeyEvent.CHAR_UNDEFINED));
+                    });
 
-            // time sleep 5 miliseconds
-            try {
-                Thread.sleep(5);
-            } catch (InterruptedException e1) {
-                e1.printStackTrace();
-            }
         }
 
         // exit macro
