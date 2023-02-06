@@ -1,6 +1,6 @@
 ## JMacro
 
-This is a program that allows you to create macros based on keyboard and mouse. With it, you can remap keys and combine keyboard and mouse actions to be performed with just one or more commands. This tool is very useful for you who have different keyboard layouts and want to automate some features.
+This program enables you to make macros using keyboard and mouse. You can change key assignments and merge keyboard and mouse actions into a single or multiple commands. It's very useful for those who have different keyboard layouts and want to automate certain functions.
 
 ## Features
 
@@ -32,14 +32,11 @@ macroEndKey = 3667; # the key that ends the execution of the JMacro
 
 Here the numerical list of each key **[Read the Documentation here](https://github.com/lobocode/JMacro/blob/main/docs/macro.md)**
 
-
 4. run it with the following command:
 
 ```bash
 java -jar JMacro.jar
 ```
-
-
 
 * **NOTE**: Pay attention to variables `macroStartKey` and `macroEndKey` (one is for starting the macro and the other for ending it).
 
