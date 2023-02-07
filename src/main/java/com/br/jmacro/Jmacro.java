@@ -1,5 +1,6 @@
 package com.br.jmacro;
 
+import com.br.jmacro.exception.ConfigFileException;
 import com.github.kwhat.jnativehook.GlobalScreen;
 import com.github.kwhat.jnativehook.NativeHookException;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
@@ -20,12 +21,11 @@ public class Jmacro implements NativeKeyListener {
 
     private Properties prop = new Properties();
 
-    public Jmacro() {
+    public Jmacro() throws ConfigFileException {
         try {
             prop.load(new FileInputStream("configMacro.properties"));
         } catch (IOException e) {
-            System.out.println("Could not load configRemap.properties file");
-            System.out.println("Error: " + e.getMessage());
+            throw new ConfigFileException("Error reading the config file.", e);
         }
     }
     public void nativeKeyPressed(NativeKeyEvent e) {
@@ -58,7 +58,7 @@ public class Jmacro implements NativeKeyListener {
 
     public void nativeKeyTyped(NativeKeyEvent e) {
     }
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ConfigFileException {
         try {
             LogManager.getLogManager().reset();
             Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
