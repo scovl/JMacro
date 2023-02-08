@@ -49,6 +49,7 @@ public class Jmacro implements NativeKeyListener {
 
         // exit macro
         if (e.getKeyCode() == Integer.parseInt(prop.getProperty("macroEndKey"))) {
+            System.out.println("Jmacro is exiting...");
             System.exit(0);
         }
     }
@@ -59,6 +60,7 @@ public class Jmacro implements NativeKeyListener {
     public void nativeKeyTyped(NativeKeyEvent e) {
     }
     public static void main(String[] args) throws ConfigFileException {
+        System.out.println("Jmacro is running...");
         try {
             LogManager.getLogManager().reset();
             Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
