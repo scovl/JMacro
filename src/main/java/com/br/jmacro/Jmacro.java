@@ -31,12 +31,30 @@ public class Jmacro implements NativeKeyListener {
     public void nativeKeyPressed(NativeKeyEvent e) {
         int keyCode = e.getKeyCode();
 
-        if (keyCode == Integer.parseInt(prop.getProperty("macroStartKey"))) {
-            IntStream.rangeClosed(1, Integer.parseInt(prop.getProperty("numberOfKeys")))
+        // macro 1
+        if (keyCode == Integer.parseInt(prop.getProperty("macro1_StartKey"))) {
+            IntStream.rangeClosed(1, Integer.parseInt(prop.getProperty("macro1_numberOfKeys")))
                     .mapToObj(i -> {
-                        String keyValue = prop.getProperty("key" + i);
+                        String keyValue = prop.getProperty("macro1_" + "key" + i );
                         if (keyValue == null || keyValue.isEmpty()) {
-                            throw new IllegalArgumentException("The key " + i + " is invalid.");
+                            throw new IllegalArgumentException("The macro1_" + "key" + i + " is not defined in the config file." );
+                        }
+                        return Integer.parseInt(keyValue);
+                    })
+                    .forEach(numCode -> {
+                        GlobalScreen.postNativeEvent(new NativeKeyEvent(NativeKeyEvent.NATIVE_KEY_PRESSED,
+                                (int) System.currentTimeMillis(), 0, numCode, NativeKeyEvent.CHAR_UNDEFINED));
+                    });
+
+        }
+
+        // macro 2
+        if (keyCode == Integer.parseInt(prop.getProperty("macro2_StartKey"))) {
+            IntStream.rangeClosed(1, Integer.parseInt(prop.getProperty("macro2_numberOfKeys")))
+                    .mapToObj(i -> {
+                        String keyValue = prop.getProperty("macro2_" + "key" + i );
+                        if (keyValue == null || keyValue.isEmpty()) {
+                            throw new IllegalArgumentException("The macro2_" + "key" + i + " is not defined in the config file." );
                         }
                         return Integer.parseInt(keyValue);
                     })
