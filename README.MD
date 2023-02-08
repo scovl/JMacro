@@ -19,17 +19,35 @@ The `configMacro.properties` file contains the following information:
 
 ```bash
 [Keyboard Macro]
-macroStartKey = 13 # key that triggers the macro
-numberOfKeys = 3 # the amount of keystrokes you want to automate
 
-key1 = 57
-key2 = 9
-key3 = 47
-# key++ here suggest you can create other keys
+numberOfMacros = 2
 
-macroEndKey = 3667; # the key that ends the execution of the JMacro
+[Macro 1]
+
+macro1_StartKey = 13
+macro1_numberOfKeys = 3
+
+macro1_key1 = 57
+macro1_key2 = 9
+macro1_key3 = 47
+
+# macro1_key*
+
+[Macro 2]
+
+macro2_StartKey = 5
+macro2_numberOfKeys = 3
+
+macro2_key1 = 4
+macro2_key2 = 6
+macro2_key3 = 7
+
+# macro1_key*
+
+# 3667 = Delete
+
+macroEndKey = 3667
 ```
-
 Here the numerical list of each key **[Read the Documentation here](https://github.com/lobocode/JMacro/blob/main/docs/macro.md)**
 
 4. run it with the following command:
