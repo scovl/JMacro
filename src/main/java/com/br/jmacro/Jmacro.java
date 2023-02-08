@@ -32,37 +32,26 @@ public class Jmacro implements NativeKeyListener {
         int keyCode = e.getKeyCode();
 
         // macro 1
-        if (keyCode == Integer.parseInt(prop.getProperty("macro1_StartKey"))) {
-            IntStream.rangeClosed(1, Integer.parseInt(prop.getProperty("macro1_numberOfKeys")))
-                    .mapToObj(i -> {
-                        String keyValue = prop.getProperty("macro1_" + "key" + i );
-                        if (keyValue == null || keyValue.isEmpty()) {
-                            throw new IllegalArgumentException("The macro1_" + "key" + i + " is not defined in the config file." );
-                        }
-                        return Integer.parseInt(keyValue);
-                    })
-                    .forEach(numCode -> {
-                        GlobalScreen.postNativeEvent(new NativeKeyEvent(NativeKeyEvent.NATIVE_KEY_PRESSED,
-                                (int) System.currentTimeMillis(), 0, numCode, NativeKeyEvent.CHAR_UNDEFINED));
-                    });
+        // numberOfMacros variable is used to define the number of macros that will be used.
+        int numberOfMacros = Integer.parseInt(prop.getProperty("numberOfMacros"));
 
-        }
-
-        // macro 2
-        if (keyCode == Integer.parseInt(prop.getProperty("macro2_StartKey"))) {
-            IntStream.rangeClosed(1, Integer.parseInt(prop.getProperty("macro2_numberOfKeys")))
-                    .mapToObj(i -> {
-                        String keyValue = prop.getProperty("macro2_" + "key" + i );
-                        if (keyValue == null || keyValue.isEmpty()) {
-                            throw new IllegalArgumentException("The macro2_" + "key" + i + " is not defined in the config file." );
-                        }
-                        return Integer.parseInt(keyValue);
-                    })
-                    .forEach(numCode -> {
-                        GlobalScreen.postNativeEvent(new NativeKeyEvent(NativeKeyEvent.NATIVE_KEY_PRESSED,
-                                (int) System.currentTimeMillis(), 0, numCode, NativeKeyEvent.CHAR_UNDEFINED));
-                    });
-
+        // if numberOfMacros is greater than 1, then macro1_StartKey is "macro" + i + "_StartKey"
+        for (int i = 1; i <= numberOfMacros; i++) {
+            if (keyCode == Integer.parseInt(prop.getProperty("macro" + i + "_StartKey"))) {
+                int finalI = i;
+                IntStream.rangeClosed(1, Integer.parseInt(prop.getProperty("macro" + i + "_numberOfKeys")))
+                        .mapToObj(j -> {
+                            String keyValue = prop.getProperty("macro" + finalI + "_key" + j );
+                            if (keyValue == null || keyValue.isEmpty()) {
+                                throw new IllegalArgumentException("The " + "macro" + finalI + "_key" + j + " is not defined in the config file." );
+                            }
+                            return Integer.parseInt(keyValue);
+                        })
+                        .forEach(numCode -> {
+                            GlobalScreen.postNativeEvent(new NativeKeyEvent(NativeKeyEvent.NATIVE_KEY_PRESSED,
+                                    (int) System.currentTimeMillis(), 0, numCode, NativeKeyEvent.CHAR_UNDEFINED));
+                        });
+            }
         }
 
         // exit macro
