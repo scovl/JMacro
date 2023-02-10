@@ -2,7 +2,6 @@ package com.br.jmacro;
 
 import com.br.jmacro.exception.ConfigFileException;
 import com.github.kwhat.jnativehook.GlobalScreen;
-import com.github.kwhat.jnativehook.NativeHookException;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
 import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
 //import com.github.kwhat.jnativehook.mouse.NativeMouseEvent;
@@ -12,9 +11,6 @@ import java.io.IOException;
 
 import java.io.InputStream;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
 import java.util.stream.IntStream;
 
 
@@ -22,8 +18,8 @@ public class Jmacro implements NativeKeyListener {
 
     private final Properties prop = new Properties();
 
-    public Jmacro() throws ConfigFileException {
-        try (InputStream inputStream = new FileInputStream("configMacro.properties")) {
+    public Jmacro(String fileName) throws ConfigFileException {
+        try (InputStream inputStream = new FileInputStream(fileName)) {
             prop.load(inputStream);
         } catch (IOException e) {
             throw new ConfigFileException("Error reading the config file.", e);
@@ -71,22 +67,5 @@ public class Jmacro implements NativeKeyListener {
     @Override
     public void nativeKeyTyped(NativeKeyEvent e) {
         // No code needed here for now
-    }
-    public static void main(String[] args) throws ConfigFileException {
-        System.out.println("Jmacro is running...");
-        try {
-            LogManager.getLogManager().reset();
-            Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
-            logger.setLevel(Level.OFF);
-
-            GlobalScreen.registerNativeHook();
-        } catch (NativeHookException ex) {
-            System.err.println("There was a problem registering the native hook.");
-            System.err.println(ex.getMessage());
-
-            System.exit(1);
-        }
-
-        GlobalScreen.addNativeKeyListener(new Jmacro());
     }
 }

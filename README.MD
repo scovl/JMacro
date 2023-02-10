@@ -48,12 +48,16 @@ macro2_key3 = 7
 
 macroEndKey = 3667
 ```
+
 Here the numerical list of each key **[Read the Documentation here](https://github.com/lobocode/JMacro/blob/main/docs/macro.md)**
 
 4. run it with the following command:
 
 ```bash
-java -jar JMacro.jar
+java -jar JMacro.jar fileName
+
+# Example
+java -jar JMacro.jar configMacro.properties
 ```
 
 * **NOTE**: Pay attention to variables `macroStartKey` and `macroEndKey` (one is for starting the macro and the other for ending it).
